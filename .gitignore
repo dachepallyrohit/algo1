@@ -1,0 +1,23 @@
+# Dependencies
+node_modules/
+
+# SQLite databases
+database.sqlite
+database.sqlite-shm
+database.sqlite-wal
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
+
+# Uploaded user files
+uploads/*
+!uploads/.gitkeep
+
+# Environment & logs
+.env.local
+*.log
+npm-debug.log*
+
+# OS Files
+.DS_Store
+Thumbs.db

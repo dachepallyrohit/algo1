@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CloudVault — Secure Document Storage & Sharing</title>
+  <meta name="description" content="CloudVault is a premium cloud-based document storage and sharing platform. Upload, organize, and share your documents securely.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>☁️</text></svg>">
+</head>
+<body>
+  <!-- Auth Screen -->
+  <div id="auth-screen" class="screen active">
+    <!-- Architectural Grid & Corner Crosshairs -->
+    <div class="vault-bg-grid"></div>
+    <div class="corner-crosshair top-left">+</div>
+    <div class="corner-crosshair top-right">+</div>
+    <div class="corner-crosshair bottom-left">+</div>
+    <div class="corner-crosshair bottom-right">+</div>
+
+    <!-- Top Technical System Bar -->
+    <header class="vault-sys-bar">
+      <div class="sys-bar-left">
+        <div class="sys-brand-glyph">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+            <rect x="3" y="3" width="18" height="18" rx="3" stroke="#ededed" stroke-width="1.8"/>
+            <circle cx="12" cy="12" r="4" stroke="#ededed" stroke-width="1.8"/>
+            <path d="M12 8v2M12 14v2M8 12h2M14 12h2" stroke="#ededed" stroke-width="1.8" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <span class="sys-brand-title">CLOUDVAULT</span>
+        <span class="sys-dot-divider">/</span>
+        <span class="sys-status-text">SYS.ONLINE</span>
+      </div>
+
+      <div class="sys-bar-right">
+        <span class="sys-crypto-tag">AES-256-GCM · WAL ENGINE</span>
+        <button type="button" class="btn-dev-override" id="btn-demo-autofill" title="Quick load tester account">
+          <span class="dev-dot"></span>
+          <span>DEV: TESTER CREDS</span>
+          <span class="kbd-hint">↵</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Centered Architectural Vault Card -->
+    <div class="vault-card-wrapper">
+      <div class="vault-monolith">
+        <!-- Monolith Header -->
+        <div class="monolith-header">
+          <div class="monolith-meta">
+            <span class="meta-protocol">// ENCRYPTED DOCUMENT PROTOCOL</span>
+            <span class="meta-version">V2.4.0</span>
+          </div>
+
+          <!-- Tactile Mode Switcher -->
+          <div class="monolith-mode-switch">
+            <button type="button" class="auth-tab active" data-tab="login" id="tab-login">
+              <span class="tab-indicator"></span>
+              <span>AUTHENTICATE</span>
+            </button>
+            <button type="button" class="auth-tab" data-tab="register" id="tab-register">
+              <span class="tab-indicator"></span>
+              <span>CREATE VAULT</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Sign In Form -->
+        <form id="login-form" class="auth-form active">
+          <div class="form-title-block">
+            <h1 class="monolith-title">Unlock Workspace</h1>
+            <p class="monolith-sub">Present your identity credentials to decrypt files.</p>
+          </div>
+
+          <div class="input-block">
+            <div class="input-label-row">
+              <label for="login-email">IDENTITY / HANDLE OR EMAIL</label>
+            </div>
+            <div class="monolith-input-wrap">
+              <input type="text" id="login-email" placeholder="tester or tester@example.com" required autocomplete="username" spellcheck="false">
+            </div>
+          </div>
+
+          <div class="input-block">
+            <div class="input-label-row">
+              <label for="login-password">PASSPHRASE</label>
+            </div>
+            <div class="monolith-input-wrap">
+              <input type="password" id="login-password" placeholder="••••••••••••" required autocomplete="current-password">
+              <button type="button" class="btn-toggle-password" data-target="login-password" aria-label="Toggle password visibility">
+                <svg class="eye-open" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                <svg class="eye-closed hidden" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <button type="submit" class="btn-monolith-action" id="btn-login">
+            <span>DECRYPT & ENTER</span>
+            <span class="action-arrow">→</span>
+          </button>
+          <div id="login-error" class="form-error"></div>
+
+          <div class="monolith-bottom-bar">
+            <span>No workspace yet?</span>
+            <button type="button" class="link-switch-tab" data-goto="register">Initialize new vault [Tab]</button>
+          </div>
+        </form>
+
+        <!-- Sign Up Form -->
+        <form id="register-form" class="auth-form">
+          <div class="form-title-block">
+            <h1 class="monolith-title">Initialize Vault</h1>
+            <p class="monolith-sub">Zero-knowledge storage allocation. No trackers.</p>
+          </div>
+
+          <div class="input-grid-split">
+            <div class="input-block">
+              <div class="input-label-row">
+                <label for="register-name">OPERATOR NAME</label>
+              </div>
+              <div class="monolith-input-wrap">
+                <input type="text" id="register-name" placeholder="Elena Rostova" required spellcheck="false">
+              </div>
+            </div>
+
+            <div class="input-block">
+              <div class="input-label-row">
+                <label for="register-username">HANDLE</label>
+              </div>
+              <div class="monolith-input-wrap prefix-wrap">
+                <span class="handle-prefix">@</span>
+                <input type="text" id="register-username" placeholder="elena" required autocomplete="username" spellcheck="false">
+              </div>
+            </div>
+          </div>
+
+          <div class="input-block">
+            <div class="input-label-row">
+              <label for="register-email">EMAIL PROTOCOL DESTINATION</label>
+            </div>
+            <div class="monolith-input-wrap">
+              <input type="email" id="register-email" placeholder="elena@domain.com" required autocomplete="email" spellcheck="false">
+            </div>
+          </div>
+
+          <div class="input-block">
+            <div class="input-label-row">
+              <label for="register-password">MASTER PASSPHRASE</label>
+              <span class="entropy-status-text" id="pwd-strength-text">MIN 6 CHARS</span>
+            </div>
+            <div class="monolith-input-wrap">
+              <input type="password" id="register-password" placeholder="Passphrase (min. 6 chars)" required minlength="6" autocomplete="new-password">
+              <button type="button" class="btn-toggle-password" data-target="register-password" aria-label="Toggle password visibility">
+                <svg class="eye-open" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                <svg class="eye-closed hidden" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+              </button>
+            </div>
+
+            <!-- Tactile Entropy Tick Gauge -->
+            <div class="entropy-gauge" id="pwd-strength-meter">
+              <div class="gauge-pip" data-step="1"></div>
+              <div class="gauge-pip" data-step="2"></div>
+              <div class="gauge-pip" data-step="3"></div>
+              <div class="gauge-pip" data-step="4"></div>
+            </div>
+          </div>
+
+          <div class="monolith-security-callout">
+            <span class="sec-icon">◈</span>
+            <span>Client-side key derivation · Zero analytics · Pure file ownership</span>
+          </div>
+
+          <button type="submit" class="btn-monolith-action" id="btn-register">
+            <span>PROVISION VAULT</span>
+            <span class="action-arrow">↵</span>
+          </button>
+          <div id="register-error" class="form-error"></div>
+
+          <div class="monolith-bottom-bar">
+            <span>Registered operator?</span>
+            <button type="button" class="link-switch-tab" data-goto="login">Authenticate instead →</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Footer Micro Spec -->
+      <footer class="monolith-spec-footer">
+        <span>STORAGE: LOCAL + OBJECT STORE COMPLIANT</span>
+        <span>•</span>
+        <span>ZERO-KNOWLEDGE VERIFIED</span>
+      </footer>
+    </div>
+  </div>
+
+  <!-- Public Share Screen -->
+  <div id="public-share-screen" class="screen">
+    <div class="public-share-wrapper">
+      <header class="public-share-header">
+        <div class="public-brand">
+          <div class="brand-icon-sm">
+            <svg width="28" height="28" viewBox="0 0 48 48" fill="none">
+              <path d="M38 28a8 8 0 01-2 15.8H14a10 10 0 01-1.3-19.9 12 12 0 0123.3-5A8 8 0 0138 28z" fill="url(#cloudGrad)"/>
+              <path d="M22 28l4-4 4 4M26 24v10" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <span class="brand-text">CloudVault</span>
+          <span class="public-badge">Shared Document</span>
+        </div>
+        <div class="public-header-actions">
+          <button class="btn btn-secondary btn-sm" id="btn-public-goto-login">
+            <span>Sign In / Create Account</span>
+          </button>
+        </div>
+      </header>
+
+      <div class="public-share-container">
+        <div class="public-share-card">
+          <div class="public-card-status">
+            <span class="status-chip"><span class="status-dot"></span> Cloud Verified</span>
+            <span class="security-chip" id="public-cloud-provider-tag">☁️ CloudVault S3</span>
+          </div>
+
+          <div class="public-file-hero">
+            <div class="public-file-icon-box" id="public-file-icon-box">📄</div>
+            <div class="public-file-headings">
+              <h1 id="public-file-name" class="public-hero-title">Loading document...</h1>
+              <div class="public-meta-bar">
+                <span id="public-file-size" class="meta-tag">0 KB</span>
+                <span class="meta-separator">•</span>
+                <span id="public-file-type" class="meta-tag">File</span>
+                <span class="meta-separator">•</span>
+                <span id="public-file-owner" class="meta-tag">Shared with you</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Public Document Inline Preview Section -->
+          <div class="public-preview-section" id="public-preview-section" style="display:none">
+            <div class="public-preview-bar">
+              <span class="preview-tag" id="public-preview-label">Document Preview</span>
+              <button class="btn-icon btn-sm" id="btn-close-public-preview" title="Hide Preview">✕</button>
+            </div>
+            <div class="public-preview-content" id="public-preview-content"></div>
+          </div>
+
+          <div class="public-action-buttons">
+            <button class="btn btn-primary btn-lg" id="btn-public-download">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+              <span>Download File</span>
+            </button>
+            <button class="btn btn-secondary btn-lg" id="btn-public-preview">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              <span id="btn-public-preview-text">Preview Document</span>
+            </button>
+          </div>
+
+          <div class="public-card-footer">
+            <div class="public-trust-badge">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              <span>Protected by CloudVault Access Permissions & End-to-End Encryption</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main App -->
+  <div id="app-screen" class="screen">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-brand">
+        <div class="brand-icon-sm">
+          <svg width="32" height="32" viewBox="0 0 48 48" fill="none">
+            <path d="M38 28a8 8 0 01-2 15.8H14a10 10 0 01-1.3-19.9 12 12 0 0123.3-5A8 8 0 0138 28z" fill="url(#cloudGrad)"/>
+            <path d="M22 28l4-4 4 4M26 24v10" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <span class="brand-text">CloudVault</span>
+      </div>
+
+      <button class="btn btn-primary btn-upload" id="btn-new-upload">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+        <span>Upload Files</span>
+      </button>
+
+      <nav class="sidebar-nav">
+        <a href="#" class="nav-item active" data-view="my-drive" id="nav-drive">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/></svg>
+          <span>My Drive</span>
+        </a>
+        <a href="#" class="nav-item" data-view="shared" id="nav-shared">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+          <span>Shared with Me</span>
+        </a>
+        <a href="#" class="nav-item" data-view="shared-by-me" id="nav-shared-by-me">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+          <span>Shared by Me</span>
+        </a>
+        <a href="#" class="nav-item" data-view="starred" id="nav-starred">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <span>Starred</span>
+        </a>
+        <a href="#" class="nav-item" data-view="trash" id="nav-trash">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg>
+          <span>Trash</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-storage">
+        <div class="storage-provider-badge" id="storage-provider-btn" title="Click to view Cloud Storage Details">
+          <span class="provider-dot"></span>
+          <span id="storage-provider-name">AWS S3 / Cloud Engine</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zM12 16v-4M12 8h.01"/></svg>
+        </div>
+        <div class="storage-label">
+          <span>Storage Used</span>
+          <span id="storage-text">0 MB / 5 GB</span>
+        </div>
+        <div class="storage-bar">
+          <div class="storage-fill" id="storage-fill" style="width: 0%"></div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Header -->
+      <header class="main-header">
+        <button class="btn-icon sidebar-toggle" id="sidebar-toggle">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+        </button>
+        <div class="search-container">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+          <input type="text" id="search-input" placeholder="Search documents..." class="search-input">
+        </div>
+        <div class="header-actions">
+          <button class="btn-icon view-toggle" id="view-toggle" title="Toggle view">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+          </button>
+          <div class="user-menu" id="user-menu">
+            <button class="user-avatar" id="user-avatar-btn">
+              <span id="user-initials">U</span>
+            </button>
+            <div class="user-dropdown" id="user-dropdown">
+              <div class="dropdown-header">
+                <span class="dropdown-name" id="dropdown-name">User</span>
+                <span class="dropdown-email" id="dropdown-email">user@email.com</span>
+              </div>
+              <div class="dropdown-divider"></div>
+              <button class="dropdown-item" id="btn-logout">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"/></svg>
+                <span>Sign Out</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Breadcrumbs -->
+      <div class="breadcrumbs" id="breadcrumbs">
+        <a href="#" class="breadcrumb-item" data-folder="">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
+          My Drive
+        </a>
+      </div>
+
+      <!-- View Title -->
+      <div class="view-header" id="view-header">
+        <h2 id="view-title">My Drive</h2>
+        <div class="view-actions">
+          <button class="btn btn-secondary btn-sm" id="btn-new-folder">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/><line x1="12" y1="11" x2="12" y2="17"/><line x1="9" y1="14" x2="15" y2="14"/></svg>
+            <span>New Folder</span>
+          </button>
+          <button class="btn btn-secondary btn-sm" id="btn-empty-trash" style="display:none; color:#f87171; border-color:rgba(239,68,68,0.3)">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg>
+            <span>Empty Trash</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Drop Zone -->
+      <div class="drop-zone" id="drop-zone">
+        <div class="drop-zone-content">
+          <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+          <h3>Drop files here to upload</h3>
+          <p>Files will be uploaded to the current folder</p>
+        </div>
+      </div>
+
+      <!-- Content Area -->
+      <div class="content-area" id="content-area">
+        <!-- Folders Grid -->
+        <div class="section-label" id="folders-label" style="display:none">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg>
+          Folders
+        </div>
+        <div class="folders-grid" id="folders-grid"></div>
+
+        <!-- Files Grid -->
+        <div class="section-label" id="files-label" style="display:none">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          Files
+        </div>
+        <div class="files-grid" id="files-grid"></div>
+        <div class="files-list" id="files-list"></div>
+
+        <!-- Empty State -->
+        <div class="empty-state" id="empty-state" style="display:none">
+          <div class="empty-icon">
+            <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          </div>
+          <h3 id="empty-title">No documents yet</h3>
+          <p id="empty-description">Upload your first document to get started</p>
+          <button class="btn btn-primary" id="empty-upload-btn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+            <span>Upload Files</span>
+          </button>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Upload Modal -->
+  <div class="modal-overlay" id="upload-modal">
+    <div class="modal" style="max-width: 520px">
+      <div class="modal-header">
+        <h3>Upload Files</h3>
+        <button class="btn-icon modal-close" data-close="upload-modal">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="upload-area" id="upload-area">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+          <h4>Drag & drop files here</h4>
+          <p>or click to browse</p>
+          <input type="file" id="file-input" multiple style="display:none">
+        </div>
+        <div class="upload-queue" id="upload-queue"></div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-close="upload-modal">Cancel</button>
+        <button class="btn btn-primary" id="btn-start-upload" disabled>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+          <span>Upload</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Share Modal -->
+  <div class="modal-overlay" id="share-modal">
+    <div class="modal" style="max-width: 660px">
+      <div class="modal-header">
+        <div style="display:flex; align-items:center; gap:10px;">
+          <span style="font-size:20px">🔗</span>
+          <h3>Share & Grant Access: "<span id="share-doc-name"></span>"</h3>
+        </div>
+        <button class="btn-icon modal-close" data-close="share-modal">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p class="share-subtitle" style="font-size:13px; color:var(--text-tertiary); margin-bottom:12px;">
+          Grant access to specific team members by email or generate an encrypted public link.
+        </p>
+
+        <!-- Quick user selection chips -->
+        <div class="quick-team-section" id="quick-team-section" style="margin-bottom:14px;">
+          <div style="font-size:11px; font-weight:600; text-transform:uppercase; color:var(--text-tertiary); margin-bottom:6px;">
+            Suggested workspace users (click to add):
+          </div>
+          <div class="quick-user-chips" id="quick-user-chips"></div>
+        </div>
+
+        <div class="share-input-row">
+          <input type="email" id="share-email" placeholder="Enter user email (e.g. bob@example.com)" class="share-email-input">
+          <select id="share-permission" class="share-permission-select">
+            <option value="view">👁️ Viewer (View only)</option>
+            <option value="download">📥 Downloader (Can download)</option>
+            <option value="edit">✏️ Editor (Can edit/move)</option>
+          </select>
+          <button class="btn btn-primary" id="btn-share-send">Grant Access</button>
+        </div>
+        <div id="share-error" class="form-error" style="margin-top:8px"></div>
+
+        <div class="share-divider">
+          <span>Users with Access</span>
+        </div>
+        <div class="share-list" id="share-list">
+          <div class="share-empty">No external users have access yet</div>
+        </div>
+
+        <div class="share-divider">
+          <span>Public Link Access</span>
+        </div>
+        <div class="public-link-section">
+          <button class="btn btn-secondary btn-sm" id="btn-create-public-link">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
+            <span>Create Public Share Link</span>
+          </button>
+          <div class="public-link-display" id="public-link-display" style="display:none; gap:6px;">
+            <input type="text" id="public-link-url" readonly class="public-link-input">
+            <button class="btn btn-secondary btn-sm" id="btn-copy-link">Copy</button>
+            <button class="btn btn-secondary btn-sm" id="btn-visit-link" title="Open in new tab">Open ↗</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- New Folder Modal -->
+  <div class="modal-overlay" id="folder-modal">
+    <div class="modal" style="max-width: 420px">
+      <div class="modal-header">
+        <h3>Create New Folder</h3>
+        <button class="btn-icon modal-close" data-close="folder-modal">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="folder-name-input">Folder Name</label>
+          <input type="text" id="folder-name-input" placeholder="Enter folder name" required>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-close="folder-modal">Cancel</button>
+        <button class="btn btn-primary" id="btn-create-folder">Create</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Rename Modal -->
+  <div class="modal-overlay" id="rename-modal">
+    <div class="modal" style="max-width: 420px">
+      <div class="modal-header">
+        <h3>Rename</h3>
+        <button class="btn-icon modal-close" data-close="rename-modal">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="rename-input">New Name</label>
+          <input type="text" id="rename-input" placeholder="Enter new name" required>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-close="rename-modal">Cancel</button>
+        <button class="btn btn-primary" id="btn-confirm-rename">Rename</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Document Preview Modal -->
+  <div class="modal-overlay" id="preview-modal">
+    <div class="modal preview-modal-dialog">
+      <div class="modal-header preview-modal-header">
+        <div class="preview-header-meta">
+          <div class="preview-badge" id="preview-badge">DOC</div>
+          <div>
+            <h3 id="preview-title" class="preview-filename">document.pdf</h3>
+            <div class="preview-subtitle" id="preview-subtitle">0 KB • Updated recently</div>
+          </div>
+        </div>
+        <div class="preview-header-actions">
+          <button class="btn btn-secondary btn-sm" id="btn-preview-share" title="Share Document">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+            <span>Share</span>
+          </button>
+          <button class="btn btn-primary btn-sm" id="btn-preview-download" title="Download Document">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+            <span>Download</span>
+          </button>
+          <button class="btn-icon modal-close" data-close="preview-modal" title="Close Preview">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="modal-body preview-modal-body">
+        <div class="preview-loading" id="preview-loading" style="display:none">
+          <div class="spinner"></div>
+          <span>Loading document preview...</span>
+        </div>
+        <div class="preview-viewport" id="preview-viewport"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cloud Storage Config Modal -->
+  <div class="modal-overlay" id="storage-modal">
+    <div class="modal" style="max-width: 580px">
+      <div class="modal-header">
+        <div style="display:flex; align-items:center; gap:10px;">
+          <span style="font-size:22px">☁️</span>
+          <h3>Cloud Storage Engine</h3>
+        </div>
+        <button class="btn-icon modal-close" data-close="storage-modal">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="storage-info-card">
+          <div class="storage-info-row">
+            <span class="info-label">Active Provider</span>
+            <span class="info-badge success" id="storage-engine-badge">AWS S3 Ready</span>
+          </div>
+          <div class="storage-info-row">
+            <span class="info-label">Storage Bucket</span>
+            <span class="info-value" id="storage-bucket-name">cloudvault-storage-bucket</span>
+          </div>
+          <div class="storage-info-row">
+            <span class="info-label">Cloud Region</span>
+            <span class="info-value" id="storage-region-name">us-east-1</span>
+          </div>
+          <div class="storage-info-row">
+            <span class="info-label">Encryption</span>
+            <span class="info-value">AES-256 Server-Side Cloud Encryption</span>
+          </div>
+        </div>
+
+        <div class="storage-guide-section">
+          <h4>Multi-Cloud Configuration (.env)</h4>
+          <p>CloudVault supports AWS S3, Google Cloud Storage, and Local Storage seamlessly:</p>
+          <div class="code-block-hint">
+            <div class="code-title">AWS S3 (or MinIO / Cloudflare R2):</div>
+            <pre>STORAGE_PROVIDER=s3
+AWS_REGION=us-east-1
+AWS_ACCESS_KEY_ID=your_access_key
+AWS_SECRET_ACCESS_KEY=your_secret_key
+AWS_S3_BUCKET=cloudvault-documents</pre>
+          </div>
+          <div class="code-block-hint" style="margin-top:10px">
+            <div class="code-title">Google Cloud Storage (GCS):</div>
+            <pre>STORAGE_PROVIDER=gcs
+GCS_PROJECT_ID=your_gcp_project_id
+GCS_BUCKET_NAME=your_gcs_bucket_name
+GCS_KEY_FILE=./gcp-key.json</pre>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary" data-close="storage-modal">Done</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Context Menu -->
+  <div class="context-menu" id="context-menu">
+    <button class="context-item" data-action="open">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+      <span>Open</span>
+    </button>
+    <button class="context-item" data-action="download">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+      <span>Download</span>
+    </button>
+    <button class="context-item" data-action="share">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+      <span>Share</span>
+    </button>
+    <button class="context-item" data-action="rename">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+      <span>Rename</span>
+    </button>
+    <button class="context-item" data-action="star">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      <span id="star-text">Star</span>
+    </button>
+    <div class="context-divider"></div>
+    <button class="context-item context-danger" data-action="trash">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg>
+      <span id="trash-text">Move to Trash</span>
+    </button>
+    <button class="context-item context-danger" id="context-delete-perm" data-action="delete-perm" style="display:none">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>
+      <span>Delete Permanently</span>
+    </button>
+  </div>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- Hidden file input for upload -->
+  <input type="file" id="hidden-file-input" multiple style="display:none">
+
+  <script src="app.js"></script>
+</body>
+</html>
